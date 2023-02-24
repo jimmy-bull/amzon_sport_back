@@ -32,6 +32,7 @@ class Post extends Controller
             $post->save();
             foreach ($request->file('images') as $key => $file) {
                 $image_name = time() . '_' . $request->title . '.' .  $file->extension();
+                $path =  $file->storeAs('post_images_videos', $image_name, "s3");
                 if (
                     $file->extension() == "mp4" || $file->extension() == "flv" ||
                     $file->extension() == "m3u8" || $file->extension() == "ts" || $file->extension() == "3gp"
@@ -41,13 +42,13 @@ class Post extends Controller
                     $image_tables = new  ImageVideoTable();
                     $image_tables->post_id = $post->id;
                     $image_tables->type = "video";
-                    $image_tables->link = $file->storeAs('post_images_videos', $image_name, "s3");
+                    $image_tables->link = $path;
                     $image_tables->save();
                 } else {
                     $image_tables = new  ImageVideoTable();
                     $image_tables->post_id = $post->id;
                     $image_tables->type = "image";
-                    $image_tables->link = $file->store('post_images_videos', $image_name, "s3");
+                    $image_tables->link = $path;
                     $image_tables->save();
                 }
             }

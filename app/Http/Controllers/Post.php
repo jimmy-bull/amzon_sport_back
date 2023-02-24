@@ -31,21 +31,23 @@ class Post extends Controller
             $post->status = $request->status;
             $post->save();
             foreach ($request->file('images') as $key => $file) {
+                $image_name = time() . '_' . $request->title . '.' .  $file->extension();
                 if (
                     $file->extension() == "mp4" || $file->extension() == "flv" ||
                     $file->extension() == "m3u8" || $file->extension() == "ts" || $file->extension() == "3gp"
                     || $file->extension() == "mov" || $file->extension() == "avi" || $file->extension() == "wmv"
                 ) {
+
                     $image_tables = new  ImageVideoTable();
                     $image_tables->post_id = $post->id;
                     $image_tables->type = "video";
-                    $image_tables->link = $file->store('public/post_images_videos');
+                    $image_tables->link = $file->storeAs('post_images_videos', $image_name, "s3");
                     $image_tables->save();
                 } else {
                     $image_tables = new  ImageVideoTable();
                     $image_tables->post_id = $post->id;
                     $image_tables->type = "image";
-                    $image_tables->link = $file->store('public/post_images_videos');
+                    $image_tables->link = $file->store('post_images_videos', $image_name, "s3");
                     $image_tables->save();
                 }
             }
@@ -239,7 +241,7 @@ class Post extends Controller
                 ->orderByDesc('post_tables_created_at')
                 // ->skip($request->page)->take(10)
                 ->get()->groupBy('post_tables_id');
-        //     return dd($fromDB);
+            //     return dd($fromDB);
             foreach ($fromDB as $key => $value) {
                 $images = [];
                 if ($value[0]->type == null) {

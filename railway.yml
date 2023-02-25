@@ -1,3 +1,0 @@
-build:
-  - name: nginx
-    config: nginx.conf

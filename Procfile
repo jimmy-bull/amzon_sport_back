@@ -1,1 +1,2 @@
-web: vendor/bin/heroku-php-nginx -C nginx.conf.erb public/
+web: nix-shell --run 'nginx -p $PWD/.nginx -c $PWD/.nginx/nginx.conf' --pure
+

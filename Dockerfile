@@ -17,4 +17,4 @@ RUN chgrp -R www-data storage bootstrap/cache \
 
 EXPOSE 80
 
-ENTRYPOINT ["/var/www/docker/run.sh"]
+# ENTRYPOINT ["/var/www/docker/run.sh"]

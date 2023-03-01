@@ -15,7 +15,7 @@ class ImageController extends Controller
     }
     public function store(Request $request)
     {
-      return $request->title;
+     // return $request->title;
         // $request->validate([
         //     'title' => 'required',
         //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -28,15 +28,15 @@ class ImageController extends Controller
                 $image_name,
                 's3'
             );
-            return Storage::url($path);
+         //   return Storage::url($path);
             //  return $path;
             // Image::create([
             //     'title' => $request->title,
             //     'image' => $path
             // ]);
-            // return redirect()->back()->with([
-            //     'message' => "Image uploaded successfully",
-            // ]);
+            return redirect()->back()->with([
+                'message' => "Image uploaded successfully",
+            ]);
         }
     }
 }

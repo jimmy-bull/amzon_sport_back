@@ -46,8 +46,8 @@ class DatabaseSeeder extends Seeder
         $this->call(WebsocketsStatisticsEntriesTableSeeder::class);
         $this->call(CommentLikesTableSeeder::class);
         $this->call(SubcommentsTableSeeder::class);
-        $this->call(SubCommentsLikesTableSeeder::class);
         $this->call(SubCommentsTablesTableSeeder::class);
+        $this->call(SubCommentsLikesTableSeeder::class);
         $this->call(UserStatusProductsTableSeeder::class);
         $this->call(UserStatusProductLostsTableSeeder::class);
         $this->call(BigsTableSeeder::class);

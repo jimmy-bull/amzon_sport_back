@@ -1243,6 +1243,42 @@ class MigrationsTableSeeder extends Seeder
                 'id' => 291,
                 'migration' => '2023_01_21_133137_add_foreign_keys_to_winnings_table',
             ),
+            204 => 
+            array (
+                'batch' => 48,
+                'id' => 292,
+                'migration' => '2023_01_31_115202_add_speudo_column_to_users_tables',
+            ),
+            205 => 
+            array (
+                'batch' => 49,
+                'id' => 293,
+                'migration' => '2023_02_01_120127_add_point_cloumn_to_users_table',
+            ),
+            206 => 
+            array (
+                'batch' => 50,
+                'id' => 294,
+                'migration' => '2023_02_02_130953_create_phones_table',
+            ),
+            207 => 
+            array (
+                'batch' => 51,
+                'id' => 295,
+                'migration' => '2023_02_03_124724_create_roles_table',
+            ),
+            208 => 
+            array (
+                'batch' => 52,
+                'id' => 296,
+                'migration' => '2023_02_03_124838_create_role_users_table',
+            ),
+            209 => 
+            array (
+                'batch' => 53,
+                'id' => 297,
+                'migration' => '2023_02_09_132924_add_combine_name_lastname_with_full_text',
+            ),
         ));
         
         

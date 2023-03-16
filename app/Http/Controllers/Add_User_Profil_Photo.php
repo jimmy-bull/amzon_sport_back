@@ -12,26 +12,27 @@ class Add_User_Profil_Photo extends Controller
     public function add_user_image(Request $request)
     {
         $checkfirs =  User::where('remember_token', "=", $request->token)->count();
-        // return $checkfirs ;
+        $url = ($request->post('url'));
+        // return  json_encode($url[0]);
         if ($checkfirs > 0) {
             $check = Users_Profile_Photo::where('email', "=", User::where('remember_token', "=", $request->token)->value("email"))->count();
             //return $check;
+            $image = $url[0];
             if ($check == 0) {
                 $addPhoto = new Users_Profile_Photo();
                 $addPhoto->email =  User::where('remember_token', "=", $request->token)->value("email");
-                $image = $request->file('image')->store('public/profils_photos');
                 $addPhoto->image  =  $image;
                 $addPhoto->save();
                 return json_encode('added');
             } else {
-                $image = $request->file('image')->store('public/profils_photos');
+                $image = $url[0];
                 Users_Profile_Photo::where('email', "=", User::where('remember_token', "=", $request->token)->value("email"))
                     ->update(["image" => $image]);
                 return  json_encode('added');
             }
         }
 
-        return 'not added connection problem';
+        return json_encode('not added connection problem');
     }
     public function getProfilPhoto(Request $request)
     {

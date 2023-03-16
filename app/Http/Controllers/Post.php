@@ -21,7 +21,7 @@ class Post extends Controller
 {
     public function add_post(Request $request)
     {
-        $checkfirst =  User::where('remember_token', "=", $request->token)->count();
+        $checkfirst =   User::where('remember_token', "=", $request->token)->count();
         if ($checkfirst > 0) {
             $id = User::where('remember_token', "=", $request->token)->value("id");
             $post = new PostTable();
@@ -30,25 +30,26 @@ class Post extends Controller
             $post->who_can_see = $request->who_can_see;
             $post->status = $request->status;
             $post->save();
-            foreach ($request->file('images') as $key => $file) {
-                $image_name = time() . '_' . $request->title . '.' .  $file->extension();
-                $path =  $file->storeAs('post_images_videos', $image_name, "s3");
+
+
+            foreach (($request->images) as $key => $file) {
+
+                // $image_name = time() . '_' . $request->title . '.' .  $file->extension();
+                // $path =  $file->storeAs('post_images_videos', $image_name, "s3");
                 if (
-                    $file->extension() == "mp4" || $file->extension() == "flv" ||
-                    $file->extension() == "m3u8" || $file->extension() == "ts" || $file->extension() == "3gp"
-                    || $file->extension() == "mov" || $file->extension() == "avi" || $file->extension() == "wmv"
+                    $request->type_table[$key] == "video"
                 ) {
 
                     $image_tables = new  ImageVideoTable();
                     $image_tables->post_id = $post->id;
                     $image_tables->type = "video";
-                    $image_tables->link = $path;
+                    $image_tables->link = $file;
                     $image_tables->save();
                 } else {
                     $image_tables = new  ImageVideoTable();
                     $image_tables->post_id = $post->id;
                     $image_tables->type = "image";
-                    $image_tables->link = $path;
+                    $image_tables->link = $file;
                     $image_tables->save();
                 }
             }
@@ -98,16 +99,18 @@ class Post extends Controller
                 }
 
                 foreach ($fromDB[$key] as $key__ => $value__) {
+                    //  return dd($value__);
                     $imagesObj = new \stdClass();
                     $imagesObj->image = $value__->link;
                     $imagesObj->id = $i;
-                    if (Storage::disk('public')->exists(explode("public", $value__->link)[1])) {
-                        $img_size = getimagesize(storage_path('app/' . $value__->link));
-                    } else {
-                        $img_size = false;
-                    }
-                    if ($img_size != false) {
-                        $imagesObj->imageDimension = intval($img_size["0"])  / intval($img_size["1"]);
+
+
+
+                    if ($value__->type != "video") {
+                        //     $img_size = getimagesize($value__->link);
+                        $imagesObj->imageDimension = true;
+                        // intval($img_size["0"])  / intval($img_size["1"]);
+                        // REMOVE THE IMAGE DIMENSION BECAUSE OF SLOWNESS;
                     } else {
                         $imagesObj->imageDimension = false;
                     }
@@ -124,7 +127,7 @@ class Post extends Controller
                 $i = 0;
                 array_push($newTable, $customObj);
             }
-            return   $newTable;
+            return ($newTable);
         }
     }
 
@@ -166,13 +169,28 @@ class Post extends Controller
                     $imagesObj = new \stdClass();
                     $imagesObj->image = $value__->link;
                     $imagesObj->id = $i;
-                    if (Storage::disk('public')->exists(explode("public", $value__->link)[1])) {
-                        $img_size = getimagesize(storage_path('app/' . $value__->link));
-                    } else {
-                        $img_size = false;
-                    }
-                    if ($img_size != false) {
-                        $imagesObj->imageDimension = intval($img_size["0"])  / intval($img_size["1"]);
+                    // if (Storage::disk('public')->exists(explode("public", $value__->link)[1])) {
+                    //     $img_size = getimagesize(storage_path('app/' . $value__->link));
+                    // } else {
+                    //     $img_size = false;
+                    // }
+                    // if ($img_size != false) {
+                    //     $imagesObj->imageDimension = intval($img_size["0"])  / intval($img_size["1"]);
+                    // } else {
+                    //     $imagesObj->imageDimension = false;
+                    // }
+                    // $img_size = getimagesize($value__->link);
+                    // if ($img_size != false) {
+                    //     $imagesObj->imageDimension = intval($img_size["0"])  / intval($img_size["1"]);
+                    // } else {
+                    //     $imagesObj->imageDimension = false;
+                    // }
+
+                    if ($value__->type != "video") {
+                        //     $img_size = getimagesize($value__->link);
+                        $imagesObj->imageDimension = true;
+                        // intval($img_size["0"])  / intval($img_size["1"]);
+                        // REMOVE THE IMAGE DIMENSION BECAUSE OF SLOWNESS;
                     } else {
                         $imagesObj->imageDimension = false;
                     }
@@ -205,7 +223,7 @@ class Post extends Controller
             //REcupere les post de ceux que je suis sur l'application
             $user_id = User::where('remember_token', "=", $request->token)->select('id')->get();
             $email = User::where('remember_token', "=", $request->token)->select('email')->get();
-            $fromDB = DB::table(DB::raw("(SELECT * FROM post_tables limit 10) AS t1"))
+            $fromDB = DB::table(DB::raw("(SELECT * FROM post_tables) AS t1"))
                 ->select(
                     't1.*',
                     'following_systems.*',
@@ -240,9 +258,9 @@ class Post extends Controller
                 ->where('thefollower', '=', $email[0]->email)
                 ->where('thefollowingState', '=',  "isfollowing")
                 ->orderByDesc('post_tables_created_at')
-                // ->skip($request->page)->take(10)
-                ->get()->groupBy('post_tables_id');
-            //     return dd($fromDB);
+                // ->skip($request->page)->take(10) $request->page
+                ->get()->groupBy('post_tables_id') ->skip(0)->take(10);
+             // return dd($fromDB);
             foreach ($fromDB as $key => $value) {
                 $images = [];
                 if ($value[0]->type == null) {
@@ -389,14 +407,23 @@ class Post extends Controller
                         $imagesObj->image = $value__->link;
                         $imagesObj->id = $i;
 
-                        if (Storage::disk('public')->exists(explode("public", $value__->link)[1])) {
-                            $img_size = getimagesize(storage_path('app/' . $value__->link));
-                        } else {
-                            $img_size = false;
-                        }
+                        // if (Storage::disk('public')->exists(explode("public", $value__->link)[1])) {
+                        //     $img_size = getimagesize(storage_path('app/' . $value__->link));
+                        // } else {
+                        //     $img_size = false;
+                        // }
 
-                        if ($img_size != false) {
-                            $imagesObj->imageDimension = intval($img_size["0"])  / intval($img_size["1"]);
+                        // if ($img_size != false) {
+                        //     $imagesObj->imageDimension = intval($img_size["0"])  / intval($img_size["1"]);
+                        // } else {
+                        //     $imagesObj->imageDimension = false;
+                        // }
+
+                        if ($value__->type != "video") {
+                            //     $img_size = getimagesize($value__->link);
+                            $imagesObj->imageDimension = true;
+                            // intval($img_size["0"])  / intval($img_size["1"]);
+                            // REMOVE THE IMAGE DIMENSION BECAUSE OF SLOWNESS;
                         } else {
                             $imagesObj->imageDimension = false;
                         }

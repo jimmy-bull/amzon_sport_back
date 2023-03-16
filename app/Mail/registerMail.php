@@ -29,7 +29,7 @@ class registerMail extends Mailable
      */
     public function build()
     {
-        $this->from('noreply@o-score.fr')
+        return $this->from(env('MAIL_FROM_ADDRESS'))
             ->subject('Register email')
             ->view('emails.register');
     }

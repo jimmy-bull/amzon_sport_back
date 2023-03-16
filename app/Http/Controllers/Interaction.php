@@ -215,10 +215,10 @@ class Interaction extends Controller
         $checkfirst =  User::where('remember_token', "=", $request->token)->count();
         if ($checkfirst > 0) {
             if (count(json_decode($request->sport)) == 0) {
-                $sport__ = Team::where('email', "=",  User::where('remember_token', "=", $request->token)->value('email'))->select('sport_name')->get();
-                foreach ($sport__ as $key => $value) {
-                    array_push($sport, $value->sport_name);
-                }
+                // $sport__ = Team::where('email', "=",  User::where('remember_token', "=", $request->token)->value('email'))->select('sport_name')->get();
+                // foreach ($sport__ as $key => $value) {
+                //     array_push($sport, $value->sport_name);
+                // }
             } else {
                 $sport = json_decode($request->sport);
             }
@@ -338,10 +338,10 @@ class Interaction extends Controller
         $checkfirst =  User::where('remember_token', "=", $request->token)->count();
         if ($checkfirst > 0) {
             if (count(json_decode($request->sport)) == 0) {
-                $sport__ = Team::where('email', "=",  User::where('remember_token', "=", $request->token)->value('email'))->select('sport_name')->get();
-                foreach ($sport__ as $key => $value) {
-                    array_push($sport, $value->sport_name);
-                }
+                // $sport__ = Team::where('email', "=",  User::where('remember_token', "=", $request->token)->value('email'))->select('sport_name')->get();
+                // foreach ($sport__ as $key => $value) {
+                //     array_push($sport, $value->sport_name);
+                // }
             } else {
                 $sport = json_decode($request->sport);
             }

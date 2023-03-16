@@ -53,9 +53,9 @@ class UserFactory extends Factory
             Users_Profile_Photo::factory(1)->create([
                 'email' => $user->email,
                 'image' => $this->faker->randomElement([
-                    "public/post_images_videos/main_1.jpeg",
-                    "public/post_images_videos/barssa.jpg",
-                    "public/post_images_videos/barsa.jpg"
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fprofils_photos%2F0f21fffd-5f76-4cb4-acdf-ed7fbb1aacf1.jpg?alt=media&token=d1e8ddd4-3315-45d6-bb2e-f68e6eb3871c",
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fprofils_photos%2Ffaf7c953-8a6e-47eb-91f2-8a193106cb13.jpg?alt=media&token=d1b80ea1-da0e-4ac0-88b3-583149c9c512",
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fprofils_photos%2Fea280841-15a5-4afc-a03d-f36bb4829fd4.jpg?alt=media&token=4a9ade31-0706-4ed9-b900-b8ea9ddc100e"
                 ]),
             ]);
             FollowingSystem::factory(1)->create([
@@ -78,16 +78,14 @@ class UserFactory extends Factory
                 'city' => $this->faker->city(),
                 'email' => $user->email,
                 'logo' => $this->faker->randomElement([
-                    "public/teams_photos/barc.jpg",
-                    "public/teams_photos/mars.png",
-                    "public/teams_photos/paris.jpg",
-                    "public/teams_photos/paris_2.jpg"
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fteams_photos%2F00ed66a8-baeb-486c-ad14-e9cf1e7e1ef9.jpg?alt=media&token=7634d86a-2b77-4eab-93a7-1a2737cbd961",
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fteams_photos%2F1bdf6e65-2c21-4b43-87fe-383e8237f1b5.jpg?alt=media&token=f2ac9a1d-0760-482a-ae3e-1c6e07437c2c",
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fteams_photos%2F147cae9a-c612-4e2f-894a-7b186098fbab.jpg?alt=media&token=25b1b98b-ea68-48ea-be33-1763849fe3d0",
                 ]),
                 'cover' => $this->faker->randomElement([
-                    "public/teams_photos/barc.jpg",
-                    "public/teams_photos/mars.png",
-                    "public/teams_photos/paris.jpg",
-                    "public/teams_photos/paris_2.jpg"
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fteams_photos%2F00ed66a8-baeb-486c-ad14-e9cf1e7e1ef9.jpg?alt=media&token=7634d86a-2b77-4eab-93a7-1a2737cbd961",
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fteams_photos%2F1bdf6e65-2c21-4b43-87fe-383e8237f1b5.jpg?alt=media&token=f2ac9a1d-0760-482a-ae3e-1c6e07437c2c",
+                    "https://firebasestorage.googleapis.com/v0/b/osport-storage.appspot.com/o/public%2Fteams_photos%2F147cae9a-c612-4e2f-894a-7b186098fbab.jpg?alt=media&token=25b1b98b-ea68-48ea-be33-1763849fe3d0",
                 ])
             ]); // Créé aussi une demande match pour chaque equipe gangner dans le TeamFactory
         });

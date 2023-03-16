@@ -21,14 +21,14 @@ class TeammembersTableSeeder extends Seeder
         \DB::table('teammembers')->insert(array (
             0 => 
             array (
-                'created_at' => '2023-01-16 19:21:45',
-                'id' => 94,
-                'notifications_id' => 679,
-                'status' => 'exit',
-                'team_to_join' => 'jamal hand',
-                'team_to_join_owner' => 'Jamal@gmail.com',
-                'updated_at' => '2023-01-16 19:24:40',
-                'who_want_to_join' => 'jbull635@gmail.com',
+                'created_at' => '2023-03-15 20:43:17',
+                'id' => 98,
+                'notifications_id' => 735,
+                'status' => 'accepeted',
+                'team_to_join' => 'Jimmybase',
+                'team_to_join_owner' => 'jbull635@gmail.com',
+                'updated_at' => '2023-03-15 20:43:32',
+                'who_want_to_join' => 'thetrackmonster@gmail.com',
             ),
         ));
         

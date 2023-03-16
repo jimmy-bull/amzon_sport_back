@@ -51,5 +51,21 @@ class DatabaseSeeder extends Seeder
         $this->call(UserStatusProductsTableSeeder::class);
         $this->call(UserStatusProductLostsTableSeeder::class);
         $this->call(BigsTableSeeder::class);
+        $this->call(ArticleLostsTableSeeder::class);
+        $this->call(ArticleSoldsTableSeeder::class);
+        $this->call(AttrsTableSeeder::class);
+        $this->call(AuctionDatesTableSeeder::class);
+        $this->call(BidAugmentationsTableSeeder::class);
+        $this->call(BidDataTableSeeder::class);
+        $this->call(CategoriesTableSeeder::class);
+        $this->call(CategoryAttributesTableSeeder::class);
+        $this->call(DetailsTableSeeder::class);
+        $this->call(DetailsDescsTableSeeder::class);
+        $this->call(EstimationsTableSeeder::class);
+        $this->call(MainProductsTableSeeder::class);
+        $this->call(MediaTableSeeder::class);
+        $this->call(PhonesTableSeeder::class);
+        $this->call(RoleUsersTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
     }
 }

@@ -21,6 +21,7 @@ class Teams extends Controller
 {
     public function add_teams(Request $request)
     {
+        // return json_encode($request->token);
         $checkfirst =  User::where('remember_token', "=", $request->token)->count();
         $checkname =  Team::where('team_name', "=", $request->team_name)->count();
         $checksport =  Team::where('sport_name', "=", $request->sport_name)
@@ -45,8 +46,8 @@ class Teams extends Controller
                     $team->email = $mail;
                     $team->team_name = $request->team_name;
                     $team->sport_name = $request->sport_name;
-                    $team->logo = $request->file('logo')->store('public/teams_photos');
-                    $team->cover = $request->file('cover')->store('public/teams_photos');
+                    $team->logo = $request->logo;
+                    $team->cover = $request->cover;
                     $team->city = $request->city;
                     $team->save();
                     return json_encode('good');
@@ -134,7 +135,8 @@ class Teams extends Controller
     {
         $checkfirs =  User::where('remember_token', "=", $request->token)->count();
         if ($checkfirs > 0) {
-            $image = $request->file('image')->store('public/profils_photos');
+            $image = $request->cover;
+            // $image = $request->file('image')->store('public/profils_photos');
             Team::where('email', "=", User::where('remember_token', "=", $request->token)->value("email"))
                 ->where("id", "=", $request->id)
                 ->update([
@@ -149,7 +151,8 @@ class Teams extends Controller
     {
         $checkfirs =  User::where('remember_token', "=", $request->token)->count();
         if ($checkfirs > 0) {
-            $image = $request->file('image')->store('public/profils_photos');
+            $image = $request->logo;
+            // $image = $request->file('image')->store('public/profils_photos');
             Team::where('email', "=", User::where('remember_token', "=", $request->token)->value("email"))
                 ->where("id", "=", $request->id)
                 ->update([

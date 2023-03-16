@@ -1,0 +1,19 @@
+$checkfirs = User::where('remember_token', "=", $request->token)->count();
+// return $checkfirs ;
+if ($checkfirs > 0) {
+$check = Users_Profile_Photo::where('email', "=", User::where('remember_token', "=", $request->token)->value("email"))->count();
+//return $check;
+if ($check == 0) {
+$addPhoto = new Users_Profile_Photo();
+$addPhoto->email = User::where('remember_token', "=", $request->token)->value("email");
+$image = $request->file('image')->store('public/profils_photos');
+$addPhoto->image = $image;
+$addPhoto->save();
+return json_encode('added');
+} else {
+$image = $request->file('image')->store('public/profils_photos');
+Users_Profile_Photo::where('email', "=", User::where('remember_token', "=", $request->token)->value("email"))
+->update(["image" => $image]);
+return json_encode('added');
+}
+}

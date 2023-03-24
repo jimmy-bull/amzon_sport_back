@@ -19,7 +19,8 @@
         "laravel/vapor-cli": "^1.54",
         "laravel/vapor-core": "^2.28",
         "league/flysystem-aws-s3-v3": "^1.0",
-        "orangehill/iseed": "^3.0"
+        "orangehill/iseed": "^3.0",
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

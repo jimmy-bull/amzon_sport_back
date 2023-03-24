@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\OrderStatusUpdated;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 
@@ -21,3 +22,9 @@ Route::get('/', function () {
 
 Route::get('image-upload', [ImageController::class, 'upload'])->name('image.upload');
 Route::post('image-store', [ImageController::class, 'store'])->name('image.upload.post');
+
+Route::get('/fire', function () {
+    OrderStatusUpdated::dispatch();
+
+    return 'Event has been sent!';
+});

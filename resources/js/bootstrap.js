@@ -30,19 +30,18 @@ window.Pusher = require("pusher-js");
 //   enabledTransports: ["ws", "wss"],
 // });
 
-
 window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    wsHost: process.env.MIX_PUSHER_HOST,
-    // wsPort: process.env.MIX_PUSHER_PORT,
-    // wssPort: process.env.MIX_PUSHER_PORT,
-    forceTLS: true,
-    encrypted: true,
-    enableLogging: true,
-    disableStats: true,
-    enabledTransports: ["ws", "wss"],
+  broadcaster: "pusher",
+  key: process.env.MIX_PUSHER_APP_KEY,
+  cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+  wsHost: process.env.MIX_PUSHER_HOST,
+  // wsPort: process.env.MIX_PUSHER_PORT,
+  // wssPort: process.env.MIX_PUSHER_PORT,
+  //   forceTLS: false,
+  forceTLS: true,
+  encrypted: true,
+  disableStats: true,
+  enabledTransports: ["ws", "wss"],
 });
 
 // window.Echo.channel("orders").listen("OrderStatusUpdated", (e) => {

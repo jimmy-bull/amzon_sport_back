@@ -2110,9 +2110,9 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   wsHost: "soketi-production-fc87.up.railway.app",
   // wsPort: process.env.MIX_PUSHER_PORT,
   // wssPort: process.env.MIX_PUSHER_PORT,
-  forceTLS: true,
-  encrypted: true,
-  enableLogging: true,
+  forceTLS: false,
+  // encrypted: true,
+  // enableLogging: true,
   disableStats: true,
   enabledTransports: ["ws", "wss"]
 });

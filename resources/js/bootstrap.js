@@ -35,15 +35,15 @@ window.Echo = new Echo({
   key: process.env.MIX_PUSHER_APP_KEY,
   cluster: process.env.MIX_PUSHER_APP_CLUSTER,
   wsHost: process.env.MIX_PUSHER_HOST,
-  // wsPort: process.env.MIX_PUSHER_PORT,
-  // wssPort: process.env.MIX_PUSHER_PORT,
+  wsPort: process.env.MIX_PUSHER_PORT,
+  wssPort: process.env.MIX_PUSHER_PORT,
   //   forceTLS: false,
-  forceTLS: true,
+  forceTLS: false,
   encrypted: true,
   disableStats: true,
   enabledTransports: ["ws", "wss"],
 });
 
-// window.Echo.channel("orders").listen("OrderStatusUpdated", (e) => {
-//     console.log(e);
-// });
+window.Echo.channel("orders").listen("OrderStatusUpdated", (e) => {
+    console.log(e);
+});

@@ -570,7 +570,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
         window.Echo.channel("orders").listen("OrderStatusUpdated", (e) => {
-            console.log('ok')
+            console.log(e)
         });
     </script>
 </body>

@@ -38,7 +38,7 @@ return [
             'options' => [
                 'host' => env('PUSHER_HOST'),
                 'port' => env('PUSHER_PORT'),
-                'scheme' => "http",
+                'scheme' => "https",
                 'encrypted' => true,
                 'useTLS' => true,
             ],

@@ -2105,21 +2105,20 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: "pusher",
-  key: "z8hxd1e3kb69q2sql188vhsjk8yhgs7w",
+  key: "app-secret",
   cluster: "mt1",
-  wsHost: "soketi-production-fc87.up.railway.app",
-  // wsPort: process.env.MIX_PUSHER_PORT,
-  // wssPort: process.env.MIX_PUSHER_PORT,
+  wsHost: "127.0.0.1",
+  wsPort: "6001",
+  wssPort: "6001",
+  //   forceTLS: false,
   forceTLS: false,
-  // encrypted: true,
-  // enableLogging: true,
+  encrypted: true,
   disableStats: true,
   enabledTransports: ["ws", "wss"]
 });
-
-// window.Echo.channel("orders").listen("OrderStatusUpdated", (e) => {
-//     console.log(e);
-// });
+window.Echo.channel("orders").listen("OrderStatusUpdated", function (e) {
+  console.log(e);
+});
 
 /***/ }),
 

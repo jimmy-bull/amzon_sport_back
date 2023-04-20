@@ -14,6 +14,7 @@ use App\Models\Teammember;
 use App\Http\Controllers\SqlRAws;
 use App\Models\phone;
 use App\Models\PostTable;
+use App\Models\MessengersIds;
 
 class Interaction extends Controller
 {
@@ -500,8 +501,11 @@ class Interaction extends Controller
     public function adnotif(Request $request)
     {
         $mail =  User::where('remember_token', "=", $request->token)->value('email');
+        $users_id =  User::where('remember_token', "=", $request->token)->value('id');
         $checkfirst =  User::where('remember_token', "=", $request->token)->count();
         $checkifNotifExist  = NotificationToken::where('token', "=", $request->notifToken)->count();
+        $checkifmessengers_ids_exist = MessengersIds::where('user_email', "=", $mail)->count();
+
         if ($checkfirst > 0) {
             if ($checkifNotifExist > 0) {
                 NotificationToken::where('token', "=", $request->notifToken)->update(["email" => $mail]);
@@ -512,8 +516,18 @@ class Interaction extends Controller
                 $notif->email =  $mail;
                 $notif->token =  $request->notifToken;
                 $notif->save();
-                return "added";
             }
+
+            if ($checkifmessengers_ids_exist == 0) {
+                $messengersIds = new MessengersIds();
+                $messengersIds->user_email =  $mail;
+                $messengersIds->users_id =  $users_id;
+                $messengersIds->unique_messengers_id =  $request->unique_message_id;
+                $messengersIds->save();
+                // return $request->notifToken;
+            }
+
+            return  "added";
         }
     }
     public function getNotifTokens(Request $request)

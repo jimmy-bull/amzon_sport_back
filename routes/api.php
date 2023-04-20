@@ -24,7 +24,7 @@ use App\Http\Controllers\Teams;
 use App\Http\Controllers\Interaction;
 // use App\Models\Team;
 use App\Http\Controllers\Post;
-
+use App\Http\Controllers\MessageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -233,7 +233,13 @@ Route::get('/getUserName/{token}', [Add_User_Profil_Photo::class, 'getUserName']
 
 Route::get('/getUserName_mail/{token}', [Add_User_Profil_Photo::class, 'getUserName_mail']);
 
+Route::get('/getuserunique_messengers_id/{token}/{email}', [Add_User_Profil_Photo::class, 'getuserunique_messengers_id']);
+
+
 Route::get('/getUserName_mail_visted_profil/{token}/{email}', [Add_User_Profil_Photo::class, 'getUserName_mail_visted_profil']);
+
+Route::get('/getConnecteduserName/{token}', [Add_User_Profil_Photo::class, 'getConnecteduserName']);
+
 
 
 Route::post('/add_teams', [Teams::class, 'add_teams']);
@@ -277,7 +283,7 @@ Route::get('/followingSystem_check/{email}/{token}', [Interaction::class, 'follo
 
 Route::get('/followingSystem_check_2/{email}/{token}', [Interaction::class, 'followingSystem_check_2']);
 
-Route::get('/adnotif/{notifToken}/{token}', [Interaction::class, 'adnotif']);
+Route::get('/adnotif/{notifToken}/{unique_message_id}/{token}', [Interaction::class, 'adnotif']);
 
 Route::get('/getNotifTokens/{token}/{email}', [Interaction::class, 'getNotifTokens']);
 
@@ -420,6 +426,29 @@ Route::get('/add_comment_likes/{comment_id}/{token}', [Post::class, 'addComments
 
 Route::get('/add_sub_comment_likes/{main_comment_id}/{comment_id}/{token}', [Post::class, 'addSubCommentsLikes']);
 
+
+
+// Route::get('/fire/{message}/{id}/{senderID}', function (Request $request) {
+//     Messages::dispatch($request->message, $request->id, $request->senderID);
+//     return 'Event has been sent!';
+// });
+
+
+Route::get(
+    '/fire/{message}/{id}/{senderID}/{senderName}/{date}/{messageType}/{status}/{senderImage}',
+    [MessageController::class, 'sendMessage']
+)->where(['senderImage' => '(.*)']);
+
+Route::get(
+    '/ConnectionCheckVerificaton/{id}/{name}/{connectionState}/{date}/{frappeurId}/{userImage}',
+    [MessageController::class, 'ConnectionCheckVerificaton']
+)->where(['userImage' => '(.*)']);
+
+
+Route::get(
+    '/ConnectionCheckValidation/{id}/{name}/{connectionState}/{date}/{frappeurId}/{userImage}',
+    [MessageController::class, 'ConnectionCheckValidation']
+)->where(['userImage' => '(.*)']);
 
 // 
 

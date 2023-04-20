@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Users_Profile_Photo;
 use App\Models\User;
+use App\Models\MessengersIds;
 
 class Add_User_Profil_Photo extends Controller
 {
@@ -77,6 +78,28 @@ class Add_User_Profil_Photo extends Controller
         $checkfirst =  User::where('remember_token', "=", $request->token)->count();
         if ($checkfirst > 0) {
             return User::where('email', "=", $request->email)->select(['name', "lastname", "city"])->get();
+        } else {
+            return 'not connected';
+        }
+    }
+
+    public function getConnecteduserName(Request $request)
+    {
+        $checkfirst =  User::where('remember_token', "=", $request->token)->count();
+        if ($checkfirst > 0) {
+            return User::where('remember_token', "=", $request->token)->select(['name', "lastname"])->get();
+        } else {
+            return 'not connected';
+        }
+    }
+
+
+    public function  getuserunique_messengers_id(Request $request)
+    {
+        $checkfirst =  User::where('remember_token', "=", $request->token)->count();
+
+        if ($checkfirst > 0) {
+            return MessengersIds::where('user_email', "=", $request->email)->value("unique_messengers_id");
         } else {
             return 'not connected';
         }

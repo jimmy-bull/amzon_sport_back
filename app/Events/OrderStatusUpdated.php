@@ -32,7 +32,7 @@ class OrderStatusUpdated implements ShouldBroadcast
      */
     public function broadcastOn(): channel
     {
-        // return new PrivateChannel('channel-name');
-        return new Channel('orders');
+        return new Channel('channel-name.' . $this->order);
+        // return new Channel('orders');
     }
 }

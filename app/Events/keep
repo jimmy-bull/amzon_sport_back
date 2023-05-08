@@ -1,0 +1,25 @@
+
+# PUSHER_APP_ID=default
+# PUSHER_APP_KEY=z8hxd1e3kb69q2sql188vhsjk8yhgs7w
+# PUSHER_APP_SECRET=6shiidf3t9im3loqx5u0uwrieaav7ak4
+# PUSHER_APP_CLUSTER=mt1
+# PUSHER_PORT=443
+
+# PUSHER_HOST=soketi-production-fc87.up.railway.app
+# PUSHER_SCHEME=http
+
+
+
+     // 'pusher' => [
+        //     'driver' => 'pusher',
+        //     'key' => env('PUSHER_APP_KEY'),
+        //     'secret' => env('PUSHER_APP_SECRET'),
+        //     'app_id' => env('PUSHER_APP_ID'),
+        //     'options' => [
+        //         'host' => env('PUSHER_HOST'),
+        //         'port' => env('PUSHER_PORT'),
+        //         'scheme' => "https",
+        //         'encrypted' => true,
+        //         'useTLS' => true,
+        //     ],
+        // ],

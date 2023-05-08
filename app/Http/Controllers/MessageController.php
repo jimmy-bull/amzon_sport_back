@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Events\Messages;
 use App\Events\ConnectionCheckVerificaton;
 use App\Events\ConnectionCheckValidation;
+use App\Events\SetMessagesState;
 
 class MessageController extends Controller
 {
@@ -21,7 +22,8 @@ class MessageController extends Controller
             $request->senderImage,
             $request->messageType,
             $request->status,
-            $request->date
+            $request->date,
+            $request->state
         );
         return 'Event has been sent!';
     }
@@ -31,7 +33,7 @@ class MessageController extends Controller
     public function ConnectionCheckVerificaton(Request $request)
     {
         ConnectionCheckVerificaton::dispatch($request->id, $request->name, $request->connectionState, $request->date, $request->userImage, $request->frappeurId);
-        return $request->frappeurId;
+        // return $request->frappeurId;
         return 'Event has been sent!';
     }
 
@@ -39,6 +41,12 @@ class MessageController extends Controller
     public function ConnectionCheckValidation(Request $request)
     {
         ConnectionCheckValidation::dispatch($request->id, $request->name, $request->connectionState, $request->date, $request->userImage, $request->frappeurId);
+        return 'Event has been sent!';
+    }
+
+    public function  SetMessagesState(Request $request)
+    {
+        SetMessagesState::dispatch($request->id, $request->who_sending, $request->message, $request->state, $request->date);
         return 'Event has been sent!';
     }
 }

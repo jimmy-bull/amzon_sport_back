@@ -435,7 +435,7 @@ Route::get('/add_sub_comment_likes/{main_comment_id}/{comment_id}/{token}', [Pos
 
 
 Route::get(
-    '/fire/{message}/{id}/{senderID}/{senderName}/{date}/{messageType}/{status}/{senderImage}',
+    '/fire/{message}/{id}/{senderID}/{senderName}/{date}/{messageType}/{status}/{state}/{senderImage}',
     [MessageController::class, 'sendMessage']
 )->where(['senderImage' => '(.*)']);
 
@@ -449,6 +449,13 @@ Route::get(
     '/ConnectionCheckValidation/{id}/{name}/{connectionState}/{date}/{frappeurId}/{userImage}',
     [MessageController::class, 'ConnectionCheckValidation']
 )->where(['userImage' => '(.*)']);
+
+
+
+Route::get(
+    '/SetMessagesState/{id}/{who_sending}/{message}/{state}/{date}',
+    [MessageController::class, 'SetMessagesState']
+);
 
 // 
 

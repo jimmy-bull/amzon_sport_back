@@ -67,5 +67,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PhonesTableSeeder::class);
         $this->call(RoleUsersTableSeeder::class);
         $this->call(RolesTableSeeder::class);
+        $this->call(MessengersIdsTableSeeder::class);
     }
 }

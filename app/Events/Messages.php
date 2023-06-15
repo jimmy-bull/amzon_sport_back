@@ -23,6 +23,7 @@ class Messages implements ShouldBroadcast
     private string $status;
     private string $date;
     private string $state;
+    private string $messageUniqueId;
     /**
      * Create a new event instance.
      *
@@ -37,7 +38,8 @@ class Messages implements ShouldBroadcast
         string $messageType,
         string $status,
         string $date,
-        string $state
+        string $state,
+        string $messageUniqueId
     ) {
         $this->message = $message;
         $this->id = $id; // theREceiver
@@ -48,6 +50,7 @@ class Messages implements ShouldBroadcast
         $this->status = $status;
         $this->date = $date;
         $this->state = $state;
+        $this->messageUniqueId = $messageUniqueId;
     }
 
     /**
@@ -75,7 +78,9 @@ class Messages implements ShouldBroadcast
             'messageType' => $this->messageType,
             'status' => $this->status,
             'date' => $this->date,
-            'state' => $this->state
+            'state' => $this->state,
+            'messageUniqueId' => urldecode($this->messageUniqueId),
+
         ];
     }
 }

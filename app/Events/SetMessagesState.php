@@ -14,12 +14,12 @@ class SetMessagesState implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private string $id; // to who i'm sending
+    private string $receipient_id; // to who i'm sending
     private string $who_sending; // [who sending,message,date]
 
-    private string $message;
+    private string $message_id;
 
-    private string $date;
+    // private string $date;
 
 
     private string $state;
@@ -29,13 +29,13 @@ class SetMessagesState implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(string $id, $who_sending, $message, $state, $date)
+    public function __construct(string $id, $who_sending, $message_id, $state)
     {
-        $this->id = $id;
+        $this->receipient_id = $id;
         $this->who_sending = $who_sending;
-        $this->message = $message;
+        $this->message_id = $message_id;
         $this->state = $state;
-        $this->date = $date;
+        // $this->date = $date;
     }
 
     /**
@@ -45,17 +45,17 @@ class SetMessagesState implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('setmessagesstate.' . $this->id);
+        return new PrivateChannel('setmessagesstate.' . $this->receipient_id);
     }
 
     public function broadcastWith(): array
     {
         return [
-            'message' => $this->message,
-            "id" => $this->id,
-            'who_sending' => $this->who_sending,
+            'message_id' => $this->message_id,
+            "receipient_id" => $this->receipient_id,
+            'sender_id' => $this->who_sending,
             'state' => $this->state,
-            'date' => $this->date,
+            // 'date' => $this->date,
         ];
     }
 }

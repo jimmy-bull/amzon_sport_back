@@ -104,4 +104,10 @@ class Add_User_Profil_Photo extends Controller
             return 'not connected';
         }
     }
+    public function get_user_name_and_image(Request $request)
+    {
+        $user_name  =  User::where('id', "=", $request->id)->select(['name', "lastname", "email"])->get();
+        $image = Users_Profile_Photo::where('email', "=", $user_name[0]->email)->pluck("image");
+        return  [$user_name[0]->name . " " . $user_name[0]->lastname, $image[0]];
+    }
 }

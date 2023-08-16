@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
-
+use App\Models\User;
+use App\Models\Users_Profile_Photo;
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -12,17 +13,22 @@ use Illuminate\Support\Facades\Broadcast;
 | used to check if an authenticated user can listen to the channel.
 |
 */
-
-// Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-//     return (int) $user->id === (int) $id;
-// });
+// App.Models.User.{id}  //  $user, $id
 
 
-// Broadcast::channel('channel-name.{id}', function ($user, $id) {
-//     //  return (int) $user->id === (int) $id;
-//     if ($id == 4) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }); 
+Broadcast::channel('privatemessage.{id}', function (User $user, int $id) {
+    return $user->id === $id;
+});
+Broadcast::channel('setmessagesstate.{id}', function (User $user, int $id) {
+    return $user->id === $id;
+});
+Broadcast::channel('global', function (User $user) {
+    return [
+        'id' => $user->id,
+        'name' => $user->name . ' ' . $user->lastname,
+        "speudo" => $user->speudo,
+        "connected" => 'yes',
+        'email' => $user->email,
+        'image' => Users_Profile_Photo::where('email', "=", $user->email)->pluck('image'),
+    ];
+});

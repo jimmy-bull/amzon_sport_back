@@ -25,6 +25,11 @@ use App\Http\Controllers\Interaction;
 // use App\Models\Team;
 use App\Http\Controllers\Post;
 use App\Http\Controllers\MessageController;
+use App\Models\FollowingSystem;
+use App\Models\UserConnectionInfo;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Validation\ValidationException;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,10 +40,6 @@ use App\Http\Controllers\MessageController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 
 
@@ -434,10 +435,24 @@ Route::get('/add_sub_comment_likes/{main_comment_id}/{comment_id}/{token}', [Pos
 // });
 
 
+// Route::get(
+//     '/fire/{message}/{id}/{messageUniqueId}/{senderID}/{senderName}/{date}/{messageType}/{status}/{state}/{senderImage}',
+//     [MessageController::class, 'sendMessage']
+// )->where(['senderImage' => '.*', 'message' => '[^/]+']);
+
+
 Route::get(
-    '/fire/{message}/{id}/{messageUniqueId}/{senderID}/{senderName}/{date}/{messageType}/{status}/{state}/{senderImage}',
+    '/private_message/{message}/{sender_id}/{receipient_id}/{is_me}/{message_type}/{opened}/{message_state}/{unique_message_id}/{deleted}',
     [MessageController::class, 'sendMessage']
-)->where(['senderImage' => '.*', 'message' => '[^/]+']);
+);
+/**
+ *  $request->is_me,
+            $request->message_type,
+            $request->opened,
+            $request->message_state,
+            $request->unique_message_id,
+            $request->deleted,
+ */
 
 Route::get(
     '/ConnectionCheckVerificaton/{id}/{name}/{connectionState}/{date}/{frappeurId}/{userImage}',
@@ -453,7 +468,7 @@ Route::get(
 
 
 Route::get(
-    '/SetMessagesState/{id}/{who_sending}/{message}/{state}/{date}',
+    '/SetMessagesState/{id}/{who_sending}/{message_id}/{state}',
     [MessageController::class, 'SetMessagesState']
 );
 
@@ -462,6 +477,99 @@ Route::get(
     '/addtempory_message_image_video_links/{tokens}/{link?}',
     [MessageController::class, 'addtempory_message_image_video_links']
 )->where(['link' => '.*']);
+
+
+Route::middleware('auth:sanctum')->post('/private_test/', function () {
+    return true;
+});
+
+Route::get('/test/{test}/{id}', [MessageController::class, 'test']);
+
+Route::get('/prsence/{test}/{room_id}', [MessageController::class, 'test']);
+
+
+
+Broadcast::routes(['middleware' => ['api', 'auth:sanctum']]);
+
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user()->id;
+});
+
+
+
+
+Route::post('/sanctum/token', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
+        ]);
+    }
+
+    return $user->createToken($request->email)->plainTextToken;
+});
+
+
+Route::post('/web_login', function (Request $request) {
+
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    if (Illuminate\Support\Facades\Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        $user = User::where('email', $request->email)->first();
+
+
+        return $user->createToken($request->email)->plainTextToken;
+    }
+    return 'The provided credentials do not match our records';
+});
+
+
+Route::middleware('auth:sanctum')->get('/get_friends/{email}', function (Request $request) {
+    $get_who_im_following =  FollowingSystem::where('thefollower', "=", $request->email)
+        ->where('thefollowingState', "=", "isfollowing")->pluck('thefollowed')->toArray();
+
+    $get_who_im_following_and_is_following_me = FollowingSystem::whereIn('thefollower', $get_who_im_following)
+        ->where('thefollowed', "=", $request->email)->where('thefollowingState', "=", "isfollowing")->pluck('thefollower')->toArray();
+    return $get_who_im_following_and_is_following_me;
+});
+
+
+Route::get('/connection_infos/{user_id}', function (Request $request) {
+    $check =    UserConnectionInfo::where('user_id', "=", $request->user_id)->count();
+    if ($check > 0) {
+        UserConnectionInfo::where('user_id', "=", $request->user_id)->update(['user_id' => $request->user_id]);
+        return 'update';
+    } else {
+        $user_connection = new UserConnectionInfo();
+        $user_connection->user_id  =  $request->user_id;
+        $user_connection->save();
+        return 'added';
+    }
+});
+
+
+Route::get('get_connection_infos/{user_id}', function (Request $request) {
+    return  UserConnectionInfo::where('user_id', "=", $request->user_id)->pluck("updated_at");
+});
+
+
+Route::get('get_user_name_and_image/{id}', [Add_User_Profil_Photo::class, 'get_user_name_and_image']);
+
+
+
+
+
 
 // 
 

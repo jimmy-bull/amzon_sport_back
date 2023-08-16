@@ -30,34 +30,34 @@ return [
 
     'connections' => [
 
-        'pusher' => [
-            'driver' => 'pusher',
-            'key' => env('PUSHER_APP_KEY'),
-            'secret' => env('PUSHER_APP_SECRET'),
-            'app_id' => env('PUSHER_APP_ID'),
-            'options' => [
-                'host' => env('PUSHER_HOST'),
-                'port' => env('PUSHER_PORT'),
-                'scheme' => "https",
-                'encrypted' => true,
-                'useTLS' => true,
-            ],
-        ],
-
-        //THIS FOR THE LOCAL WORKING WITH SOCKETI
         // 'pusher' => [
         //     'driver' => 'pusher',
-        //     'key' => 'app-key',
-        //     'secret' => 'app-secret',
-        //     'app_id' => 'app-id',
+        //     'key' => env('PUSHER_APP_KEY'),
+        //     'secret' => env('PUSHER_APP_SECRET'),
+        //     'app_id' => env('PUSHER_APP_ID'),
         //     'options' => [
-        //         'host' => '127.0.0.1',
-        //         'port' =>  6001,
-        //         'scheme' => 'http',
+        //         'host' => env('PUSHER_HOST'),
+        //         'port' => env('PUSHER_PORT'),
+        //         'scheme' => "https",
         //         'encrypted' => true,
-        //         'useTLS' => env('PUSHER_SCHEME') === 'https',
+        //         'useTLS' => true,
         //     ],
         // ],
+
+        //THIS FOR THE LOCAL WORKING WITH SOCKETI
+        'pusher' => [
+            'driver' => 'pusher',
+            'key' => 'app-key',
+            'secret' => 'app-secret',
+            'app_id' => 'app-id',
+            'options' => [
+                'host' => '127.0.0.1',
+                'port' =>  6001,
+                'scheme' => 'http',
+                'encrypted' => true,
+                'useTLS' => env('PUSHER_SCHEME') === 'https',
+            ],
+        ],
 
         'ably' => [
             'driver' => 'ably',

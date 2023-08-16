@@ -9,6 +9,9 @@ use App\Events\ConnectionCheckValidation;
 use App\Events\SetMessagesState;
 use App\Models\TemporyMessageImageVideoLink;
 use App\Models\User;
+use App\Events\Private_test;
+use App\Events\Presence_global;
+use App\Events\Private_message;
 
 class MessageController extends Controller
 {
@@ -16,20 +19,45 @@ class MessageController extends Controller
 
     public function sendMessage(Request $request)
     {
-        Messages::dispatch(
+        // Messages::dispatch(
+        //     $request->message,
+        //     $request->id,
+        //     $request->senderID,
+        //     $request->senderName,
+        //     $request->senderImage,
+        //     $request->messageType,
+        //     $request->status,
+        //     $request->date,
+        //     $request->state,
+        //     $request->messageUniqueId,
+        // );
+        Private_message::dispatch(
             $request->message,
-            $request->id,
-            $request->senderID,
-            $request->senderName,
-            $request->senderImage,
-            $request->messageType,
-            $request->status,
-            $request->date,
-            $request->state,
-            $request->messageUniqueId,
+            $request->sender_id,
+            $request->receipient_id,
+            $request->is_me,
+            $request->message_type,
+            $request->opened,
+            $request->message_state,
+            $request->unique_message_id,
+            $request->deleted,
         );
         return "Event has been sent!";
+        // . $request->receipient_id;
     }
+
+
+    public function test(Request $request)
+    {
+        Private_test::dispatch($request->test, $request->id);
+    }
+
+
+    public function presence(Request $request)
+    {
+        Presence_global::dispatch($request->test, $request->room_id);
+    }
+
 
 
     public function ConnectionCheckVerificaton(Request $request)
@@ -48,7 +76,7 @@ class MessageController extends Controller
 
     public function  SetMessagesState(Request $request)
     {
-        SetMessagesState::dispatch($request->id, $request->who_sending, $request->message, $request->state, $request->date);
+        SetMessagesState::dispatch($request->id, $request->who_sending, $request->message_id, $request->state);
         return 'Event has been sent!';
     }
 

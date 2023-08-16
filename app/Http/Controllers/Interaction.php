@@ -464,7 +464,7 @@ class Interaction extends Controller
                         ->update(['thefollowingState' => "isfollowing"]);
                     return "isfollowing";
                 }
-            } else if ($check == 0) {
+            } else if ($check == 0) { // utiliser ce code pour suivre un utilisateur.
                 $followingSystem =  new FollowingSystem();
                 $followingSystem->thefollower = $mail;
                 $followingSystem->thefollowed = $request->email;

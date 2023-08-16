@@ -43,11 +43,34 @@ window.Echo = new Echo({
   // disableStats: true,
   // enabledTransports: ["ws", "wss"],
   broadcaster: "pusher",
-  key: "app-key",
+  // authEndpoint: apiUrl + '/api/private_test',
+  authorizer: (channel, options) => {
+    return {
+      authorize: (socketId, callback) => {
+        axios.post(apiUrl + 'api/private_test'
+          // , {
+          //   socket_id: socketId,
+          //   channel_name: channel.name
+          // }
+
+        )
+          .then(response => {
+            console.log(channel.name)
+            console.log(response.data)
+            callback(null, response.data);
+          })
+          .catch(error => {
+            console.log(error)
+            callback(error);
+          });
+      }
+    };
+  },
   cluster: "mt-1",
-  wsHost: "127.0.0.1",
-  wsPort: 6001,
-  wssPort: 6001,
+  wsHost: "soketi-production-fc87.up.railway.app",
+  wsPort: "443",
+  wssPort: "443",
+  //   forceTLS: false,
   forceTLS: false,
   encrypted: true,
   disableStats: true,
@@ -70,10 +93,3 @@ window.Echo = new Echo({
   //   },
 });
 
-// window.Echo.channel("orders").listen("OrderStatusUpdated", (e) => {
-//     console.log(e);
-// });
-
-// window.Echo.private(`channel-name.4`).listen("OrderStatusUpdated", (e) => {
-//   console.log(e);
-// });
